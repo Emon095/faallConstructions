@@ -8,31 +8,49 @@ export const services = [
 ];
 
 const directoryRoles = [
-  ["General Manager", "Management"], ["Executive Office", "Management"],
-  ["Operations Manager", "Operations"], ["Projects Manager", "Projects"],
-  ["Senior Project Manager", "Projects"], ["Project Manager", "Projects"],
-  ["Construction Manager", "Projects"], ["Site Manager", "Projects"],
-  ["Planning Manager", "Project Controls"], ["Planning Engineer", "Project Controls"],
-  ["Commercial Manager", "Commercial"], ["Quantity Surveyor", "Commercial"],
-  ["Business Development Manager", "Business Development"], ["Client Relations", "Business Development"],
-  ["Engineering Manager", "Engineering"], ["Civil Engineer", "Engineering"],
-  ["Structural Engineer", "Engineering"], ["MEP Engineer", "Engineering"],
-  ["Technical Office Engineer", "Engineering"], ["Procurement Manager", "Procurement"],
-  ["Procurement Officer", "Procurement"], ["Contracts Manager", "Contracts"],
-  ["HSE Manager", "Health & Safety"], ["Safety Officer", "Health & Safety"],
-  ["QA/QC Manager", "Quality"], ["Quality Engineer", "Quality"],
-  ["Finance Manager", "Finance"], ["Human Resources Manager", "Human Resources"],
-  ["Administration Manager", "Administration"], ["General Enquiries", "Administration"]
+  ["General Manager", "المدير العام", "Management", "الإدارة"],
+  ["Executive Office", "المكتب التنفيذي", "Management", "الإدارة"],
+  ["Operations Manager", "مدير العمليات", "Operations", "العمليات"],
+  ["Projects Manager", "مدير المشاريع", "Projects", "المشاريع"],
+  ["Senior Project Manager", "مدير مشاريع أول", "Projects", "المشاريع"],
+  ["Project Manager", "مدير مشروع", "Projects", "المشاريع"],
+  ["Construction Manager", "مدير الإنشاءات", "Projects", "المشاريع"],
+  ["Site Manager", "مدير الموقع", "Projects", "المشاريع"],
+  ["Planning Manager", "مدير التخطيط", "Project Controls", "ضبط المشاريع"],
+  ["Planning Engineer", "مهندس تخطيط", "Project Controls", "ضبط المشاريع"],
+  ["Commercial Manager", "المدير التجاري", "Commercial", "الشؤون التجارية"],
+  ["Quantity Surveyor", "حاسب كميات", "Commercial", "الشؤون التجارية"],
+  ["Business Development Manager", "مدير تطوير الأعمال", "Business Development", "تطوير الأعمال"],
+  ["Client Relations", "علاقات العملاء", "Business Development", "تطوير الأعمال"],
+  ["Engineering Manager", "مدير الهندسة", "Engineering", "الهندسة"],
+  ["Civil Engineer", "مهندس مدني", "Engineering", "الهندسة"],
+  ["Structural Engineer", "مهندس إنشائي", "Engineering", "الهندسة"],
+  ["MEP Engineer", "مهندس كهروميكانيكي", "Engineering", "الهندسة"],
+  ["Technical Office Engineer", "مهندس مكتب فني", "Engineering", "الهندسة"],
+  ["Procurement Manager", "مدير المشتريات", "Procurement", "المشتريات"],
+  ["Procurement Officer", "مسؤول مشتريات", "Procurement", "المشتريات"],
+  ["Contracts Manager", "مدير العقود", "Contracts", "العقود"],
+  ["HSE Manager", "مدير الصحة والسلامة", "Health & Safety", "الصحة والسلامة"],
+  ["Safety Officer", "مسؤول السلامة", "Health & Safety", "الصحة والسلامة"],
+  ["QA/QC Manager", "مدير الجودة", "Quality", "الجودة"],
+  ["Quality Engineer", "مهندس جودة", "Quality", "الجودة"],
+  ["Finance Manager", "المدير المالي", "Finance", "المالية"],
+  ["Human Resources Manager", "مدير الموارد البشرية", "Human Resources", "الموارد البشرية"],
+  ["Administration Manager", "مدير الإدارة", "Administration", "الشؤون الإدارية"],
+  ["General Enquiries", "الاستفسارات العامة", "Administration", "الشؤون الإدارية"]
 ];
 
-export const team = directoryRoles.map(([title, department], index) => {
+export const team = directoryRoles.map(([title, titleAr, department, departmentAr], index) => {
   const number = String(index + 1).padStart(3, "0");
   const initials = title.split(/\s+/).slice(0, 2).map(word => word[0]).join("");
   return {
     id: `employee-${number}`,
     name: `Employee ${String(index + 1).padStart(2, "0")}`,
+    nameAr: `الموظف ${String(index + 1).padStart(2, "0")}`,
     title,
+    titleAr,
     department,
+    departmentAr,
     initials,
     role: "Name, profile and protected recipient email pending client approval."
   };
