@@ -5,7 +5,7 @@ import {
 import { team } from "./data/content";
 import ContactModal from "./components/ContactModal";
 
-const Logo = () => <img src="./assets/logos/faall_full_branding_transparent.png" alt="Faall Business For Contracting Est." />;
+const Logo = () => <img src="./assets/logos/faall-primary-logo-trimmed.png" alt="Faall Business For Contracting Est." />;
 
 export default function App() {
   const [menu, setMenu] = useState(false);
