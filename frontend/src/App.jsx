@@ -38,7 +38,7 @@ export default function App() {
       </header>
 
       <main>
-        <section id="home" className="hero" style={{ "--hero-image": "url('./assets/images/construction-hero-demo.webp')" }}>
+        <section id="home" className="hero" style={{ backgroundImage: `linear-gradient(90deg,#0d1a20ec 0%,#0d1a20b3 40%,#0d1a2022 76%), url('${import.meta.env.BASE_URL}assets/images/construction-hero-demo.webp')` }}>
           <div className="hero-grid" aria-hidden="true" />
           <div className="hero-content">
             <span className="eyebrow light"><i /> DIRECT COMPANY DIRECTORY</span>
