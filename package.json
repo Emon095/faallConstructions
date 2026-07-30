@@ -1,12 +1,13 @@
 {
-  "name": "faall-construction-frontend",
+  "name": "faall-constructions",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check:functions": "node --check functions/api/contact.js"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.4",

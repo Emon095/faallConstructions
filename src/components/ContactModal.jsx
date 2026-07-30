@@ -56,7 +56,7 @@ export default function ContactModal({ employee, lang = "en", onClose }) {
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 20000);
-      const res = await fetch(import.meta.env.VITE_CONTACT_API_URL || "http://localhost:3002/api/contact", {
+      const res = await fetch("/api/contact", {
         method: "POST", body: data, signal: controller.signal
       });
       clearTimeout(timeout);
@@ -90,8 +90,8 @@ export default function ContactModal({ employee, lang = "en", onClose }) {
           <form onSubmit={submit}>
             <input name="website" className="honeypot" tabIndex="-1" autoComplete="off" aria-hidden="true" />
             <div className="recipient-summary">
-              <div className="recipient-avatar">{employee.initials}</div>
-              <div><small>{c.to}</small><strong>{isAr ? employee.nameAr : employee.name}</strong><span>{isAr ? employee.titleAr : employee.title} · {isAr ? employee.departmentAr : employee.department}</span></div>
+              <div className="recipient-avatar">{employee.name.split(/\s+/).slice(0, 2).map(word => word[0]).join("")}</div>
+              <div><small>{c.to}</small><strong>{isAr ? employee.nameAr : employee.name}</strong><span>{isAr ? employee.roleAr : employee.role} · {isAr ? employee.departmentAr : employee.department}</span></div>
               <CheckCircle2 aria-label="Recipient selected" />
             </div>
             <div className="form-section-title"><span>1</span><div><strong>{c.details}</strong><small>{c.detailsHelp}</small></div></div>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460" role="img" aria-labelledby="title">
+  <title id="title">Employee profile placeholder</title>
+  <rect width="400" height="460" fill="#f0eee8"/>
+  <circle cx="200" cy="160" r="82" fill="#e55c2b"/>
+  <path d="M58 460c8-112 60-170 142-170s134 58 142 170" fill="#132226"/>
+  <circle cx="200" cy="160" r="48" fill="#faf9f6"/>
+  <path d="M130 365h140" stroke="#e55c2b" stroke-width="8"/>
+</svg>

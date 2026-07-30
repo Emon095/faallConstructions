@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import {
   ArrowRight, ArrowUpRight, ChevronDown, Menu, X
 } from "lucide-react";
-import { divisions, leadership, projects, standards, team } from "./data/content";
+import { divisions, leadership, projects, standards } from "./data/content";
+import { employees } from "./data/employees";
 import ContactModal from "./components/ContactModal";
+import EmployeeList from "./components/EmployeeList";
 
 const Logo = () => <img src="./assets/logos/faall-primary-logo-trimmed.png" alt="Faall Business For Contracting Est." />;
 const translations = {
@@ -18,7 +20,7 @@ const translations = {
     framework:"FAALL / DELIVERY FRAMEWORK",frameworkSteps:"PLAN — COORDINATE — BUILD",confidence:"Confidence is built into every stage—from the first review to final handover.",
     approval:"COMPANY PROFILE · OUR VISION",directoryLabel:"30-PERSON DIRECTORY",speakA:"Speak to the",speakB:"right person.",
     directoryText:"Thirty role-based profiles are ready for approved names, photos and backend-only email addresses. No recipient email is exposed to visitors.",
-    rolePending:"Name, profile and protected recipient email pending client approval.",send:"Send message",contactFaall:"CONTACT FAALL",
+    rolePending:"Name and profile details pending client approval.",send:"Send message",contactEmployee:"Contact",contactFaall:"CONTACT FAALL",
     unsure:"Not sure who you need?",startDirectory:"Start with our directory.",contactText:"Choose the closest role and your message will be routed securely once approved employee emails are configured.",
     find:"Find a contact",footerText:"Construction shaped by discipline, clarity and lasting value.",navigate:"Navigate",contactDirectory:"Contact directory",
     generalContact:"General contact",information:"Information",privacy:"Privacy",terms:"Terms",publicPending:"Public contact details pending",
@@ -39,7 +41,7 @@ const translations = {
     framework:"فال / إطار التنفيذ",frameworkSteps:"خطط — نسّق — ابنِ",confidence:"نبني الثقة في كل مرحلة، من المراجعة الأولى حتى التسليم النهائي.",
     approval:"عبارة تعريفية · تتطلب اعتماد العميل",directoryLabel:"دليل يضم 30 موظفاً",speakA:"تحدث إلى",speakB:"الشخص المناسب.",
     directoryText:"ثلاثون ملفاً وظيفياً جاهزاً لإضافة الأسماء والصور وعناوين البريد المحمية بعد اعتمادها. لا يظهر بريد المستلم للزوار.",
-    rolePending:"الاسم والملف المهني وبريد المستلم المحمي بانتظار اعتماد العميل.",send:"إرسال رسالة",contactFaall:"تواصل مع فال",
+    rolePending:"الاسم وتفاصيل الملف المهني بانتظار اعتماد العميل.",send:"إرسال رسالة",contactEmployee:"تواصل مع",contactFaall:"تواصل مع فال",
     unsure:"لست متأكداً بمن تتواصل؟",startDirectory:"ابدأ من دليلنا.",contactText:"اختر الدور الأقرب إلى احتياجك وسيتم توجيه رسالتك بأمان بعد إعداد عناوين البريد المعتمدة.",
     find:"اعثر على جهة اتصال",footerText:"إنشاءات تقوم على الانضباط والوضوح والقيمة المستدامة.",navigate:"التنقل",contactDirectory:"دليل التواصل",
     generalContact:"التواصل العام",information:"المعلومات",privacy:"الخصوصية",terms:"الشروط",publicPending:"بيانات التواصل العامة قيد الإضافة",
@@ -144,7 +146,7 @@ export default function App() {
 
         <section id="contact-directory" className="section team">
           <div className="section-heading"><div><span className="eyebrow">{t.directoryLabel}</span><h2>{t.speakA} <em>{t.speakB}</em></h2></div><p>{t.directoryText}</p></div>
-          <div className="team-grid">{team.map(person => <article key={person.id} data-reveal><div className="avatar">{person.initials}</div><span>{isAr ? person.departmentAr : person.department}</span><h3>{isAr ? person.nameAr : person.name}</h3><b>{isAr ? person.titleAr : person.title}</b><p>{t.rolePending}</p><button onClick={() => setSelected(person)}>{t.send} <ArrowUpRight /></button></article>)}</div>
+          <EmployeeList employees={employees} lang={lang} contactLabel={t.contactEmployee} pendingLabel={t.rolePending} onContact={setSelected} />
         </section>
 
         <section id="contact" className="contact">

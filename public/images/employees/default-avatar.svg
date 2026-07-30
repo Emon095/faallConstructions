@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460" role="img" aria-labelledby="title">
+  <title id="title">Default employee avatar</title>
+  <rect width="400" height="460" fill="#eef0ed"/>
+  <circle cx="200" cy="155" r="76" fill="#859194"/>
+  <path d="M60 460c10-108 61-166 140-166s130 58 140 166" fill="#132226"/>
+  <circle cx="200" cy="155" r="44" fill="#faf9f6"/>
+</svg>

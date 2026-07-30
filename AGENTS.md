@@ -2,42 +2,37 @@
 
 ## Project Structure & Module Organization
 
-This repository contains two independently deployable Node.js packages:
-
-- `frontend/`: React 18/Vite site. Entry points are `src/main.jsx` and `src/App.jsx`; reusable UI, directory content, and global styles live under `src/components/`, `src/data/`, and `src/styles/`.
-- `frontend/public/assets/`: static brand and demonstration images. Reference these through Vite’s base-aware public path.
-- `backend/`: contact API. `api/contact.js` is the Vercel handler, `server.js` is its local HTTP wrapper, and `templates/` contains email markup.
-- `.github/workflows/deploy-pages.yml`: production frontend build and GitHub Pages deployment.
+This is one Cloudflare Pages project. The React/Vite application lives in `src/`; reusable UI is under `src/components/`, company content is in `src/data/content.js`, and global styles are in `src/styles/main.css`. Employee records live in `src/data/employees.js`, with profile placeholders and the fallback avatar under `public/images/employees/`. Other brand and leadership assets belong in `public/assets/`. The same-origin contact endpoint is the native Pages Function `functions/api/contact.js`. Production output is generated in `dist/`; do not edit or commit it.
 
 ## Build, Test, and Development Commands
 
-Use Node.js 20+ and install from lockfiles:
+Use Node.js 20+ and install from the root lockfile:
 
 ```bash
-cd frontend && npm ci
-npm run dev                 # Vite development server
-npm run build               # production bundle in frontend/dist
-npm run preview             # serve the built bundle locally
-
-cd ../backend && npm ci
-npm run dev                 # local API on port 3002 by default
-npm run lint                # syntax-check the serverless handler
+npm ci
+npm run dev              # start the Vite UI
+npm run build            # create the production dist/ bundle
+npm run preview          # preview the static production build
+npm run check:functions  # syntax-check the Pages Function
+npx wrangler pages dev dist  # serve the build with /api/contact
 ```
 
-Copy each `.env.example` to `.env` before local development. Set `VITE_CONTACT_API_URL` to the local endpoint and keep `CONTACT_DRY_RUN=true` during routine testing.
+Run `npm run build` before Wrangler. Plain `npm run dev` serves only the Vite UI.
 
 ## Coding Style & Naming Conventions
 
-Follow the existing ES module style: two-space indentation, double quotes, semicolons, and concise arrow functions. Name React components in `PascalCase`, variables/functions in `camelCase`, and CSS classes in kebab-case. Keep employee IDs stable as `employee-001` through `employee-030`; frontend data and backend mappings must remain aligned. No formatter is configured, so preserve surrounding style.
+Use ES modules, two-space indentation, double quotes, and semicolons. Name React components in `PascalCase`, variables/functions in `camelCase`, and CSS classes in kebab-case. Keep components focused: directory presentation belongs in `EmployeeList`/`EmployeeCard`, while form behavior belongs in `ContactModal`.
+
+Employee public IDs follow `emp_01` through `emp_30`; server secrets follow `EMPLOYEE_001_EMAIL` through `EMPLOYEE_030_EMAIL`. Keep array order and secret numbering aligned. Every employee needs `id`, `name`, `role`, and `image`; retain localized fields used by the Arabic interface.
 
 ## Testing Guidelines
 
-There is no automated test framework or coverage threshold yet. Before submitting, run the frontend build and backend lint command. Manually verify English and Arabic/RTL layouts, responsive navigation, contact validation, dry-run submission, invalid attachments, and CORS. If adding tests, use names such as `ContactModal.test.jsx` and add a script to `package.json`.
+No automated test framework is configured. Before submitting, run `npm run build`, `npm run check:functions`, and `git diff --check`. Manually verify responsive and Arabic/RTL layouts, missing-image fallbacks, employee selection, modal recipient details, form validation, dry-run submission, attachment limits, rate limiting, and same-origin CORS behavior.
 
 ## Commit & Pull Request Guidelines
 
-Recent history uses short, imperative, sentence-case subjects (for example, `Add English and Arabic language switcher`). Keep each commit scoped to one logical change. Pull requests should summarize user-visible and API effects, list validation performed, link relevant issues, and include screenshots for visual or RTL changes. Never commit `.env`, credentials, recipient email addresses, generated `dist/`, or `node_modules/`.
+Use short, imperative, sentence-case commit subjects. Keep commits focused. Pull requests should describe UI and Function effects, list validation performed, link relevant issues, and include screenshots for visual or RTL changes.
 
 ## Security & Configuration
 
-Only `VITE_*` variables are public. Keep Resend credentials and `EMPLOYEE_*_EMAIL` values backend-only. Preserve server-side validation, exact-origin CORS checks, attachment limits, and dry-run behavior when modifying the contact flow.
+Never place recipient addresses or Resend credentials in `src/`, API responses, or committed `.env` files. Configure `.env.example` values as encrypted Cloudflare variables. The frontend must call relative `/api/contact`; do not add a public API URL variable. Preserve server-side ID mapping, validation, attachment limits, HTML escaping, same-origin CORS, rate limiting, and `CONTACT_DRY_RUN`.
