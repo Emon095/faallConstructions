@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   ArrowRight, ArrowUpRight, ChevronDown, Menu, Quote, X
 } from "lucide-react";
-import { team } from "./data/content";
+import { divisions, projects, standards, team } from "./data/content";
 import ContactModal from "./components/ContactModal";
 
 const Logo = () => <img src="./assets/logos/faall-primary-logo-trimmed.png" alt="Faall Business For Contracting Est." />;
@@ -12,17 +12,21 @@ const translations = {
     heroA:"Find the right person.",heroB:"Start the conversation.",heroText:"Reach Faall’s management, projects, engineering, commercial and support teams through one secure contact directory.",
     browse:"Browse 30 contacts",general:"General enquiry",industry:"CONSTRUCTION · ENGINEERING · DELIVERY",demo:"Demo image — replace with company project photography",
     company:"01 / COMPANY",foundation:"A FOUNDATION FOR DELIVERY",aboutA:"Strong structures begin with",aboutB:"strong thinking.",
-    aboutText:"Faall Contracting brings planning, technical coordination and hands-on delivery together under one accountable team.",
+    aboutText:"Faall carefully plans and organizes its construction and technical services to secure successful projects, collaborating with clients and subcontractors to deliver on time and within the construction budget. Headquartered in Riyadh, it provides civil, architectural and construction technical support across Saudi Arabia.",
     plan:"Plan",planText:"Define the route before work begins.",coordinate:"Coordinate",coordinateText:"Keep people, information and decisions aligned.",
-    deliver:"Deliver",deliverText:"Turn clear thinking into controlled execution.",placeholder:"Company history, markets and geographic coverage pending approved profile content.",
+    deliver:"Deliver",deliverText:"Bring projects in on time and within the construction budget.",placeholder:"Faall works with joint ventures, consultants, associates and subcontractors to build strong project relationships.",
     framework:"FAALL / DELIVERY FRAMEWORK",frameworkSteps:"PLAN — COORDINATE — BUILD",confidence:"Confidence is built into every stage—from the first review to final handover.",
-    approval:"POSITIONING STATEMENT · CLIENT APPROVAL REQUIRED",directoryLabel:"30-PERSON DIRECTORY",speakA:"Speak to the",speakB:"right person.",
+    approval:"COMPANY PROFILE · OUR VISION",directoryLabel:"30-PERSON DIRECTORY",speakA:"Speak to the",speakB:"right person.",
     directoryText:"Thirty role-based profiles are ready for approved names, photos and backend-only email addresses. No recipient email is exposed to visitors.",
     rolePending:"Name, profile and protected recipient email pending client approval.",send:"Send message",contactFaall:"CONTACT FAALL",
     unsure:"Not sure who you need?",startDirectory:"Start with our directory.",contactText:"Choose the closest role and your message will be routed securely once approved employee emails are configured.",
     find:"Find a contact",footerText:"Construction shaped by discipline, clarity and lasting value.",navigate:"Navigate",contactDirectory:"Contact directory",
     generalContact:"General contact",information:"Information",privacy:"Privacy",terms:"Terms",publicPending:"Public contact details pending",
-    rights:"All rights reserved.",demoApproval:"Demo website · Business content pending approval",switchLabel:"العربية"
+    rights:"All rights reserved.",demoApproval:"C.R. 1010323326 · Branch C.R. 4030254404",switchLabel:"العربية",
+    servicesLabel:"COMPANY PROFILE",servicesA:"Our",servicesB:"divisions.",servicesText:"Civil, electro-mechanical and technical resources for construction delivery.",details:"Capabilities",
+    managementLabel:"MANAGEMENT & COMPLIANCE",managementA:"Experienced.",managementB:"Technically capable.",managementText:"The company is managed by experienced administrators, engineers and specialists across industrial engineering and technical disciplines. Its teams provide prompt solutions to customer requirements wherever needed and verify compliance with manufacturers’ practices, industry codes, standards and specifications.",standards:"Referenced industry standards",
+    projectsLabel:"ONGOING PROJECTS",projectsA:"Current",projectsB:"portfolio.",owner:"Project owner",projectType:"Project type",location:"Location",
+    address:"P.O. Box 22133, Riyadh 11311, Kingdom of Saudi Arabia",telephone:"Tel: 011 402 4028"
   },
   ar: {
     home:"الرئيسية",about:"من نحن",contact:"اتصل بنا",contactPerson:"تواصل مع موظف",directory:"دليل التواصل المباشر",
@@ -39,7 +43,11 @@ const translations = {
     unsure:"لست متأكداً بمن تتواصل؟",startDirectory:"ابدأ من دليلنا.",contactText:"اختر الدور الأقرب إلى احتياجك وسيتم توجيه رسالتك بأمان بعد إعداد عناوين البريد المعتمدة.",
     find:"اعثر على جهة اتصال",footerText:"إنشاءات تقوم على الانضباط والوضوح والقيمة المستدامة.",navigate:"التنقل",contactDirectory:"دليل التواصل",
     generalContact:"التواصل العام",information:"المعلومات",privacy:"الخصوصية",terms:"الشروط",publicPending:"بيانات التواصل العامة قيد الإضافة",
-    rights:"جميع الحقوق محفوظة.",demoApproval:"موقع تجريبي · المحتوى التجاري بانتظار الاعتماد",switchLabel:"English"
+    rights:"جميع الحقوق محفوظة.",demoApproval:"السجل الرئيسي 1010323326 · السجل الفرعي 4030254404",switchLabel:"English",
+    servicesLabel:"ملف الشركة",servicesA:"أقسام",servicesB:"الشركة.",servicesText:"موارد مدنية وكهروميكانيكية وفنية لتنفيذ أعمال الإنشاء.",details:"القدرات",
+    managementLabel:"الإدارة والامتثال",managementA:"خبرة.",managementB:"وقدرة فنية.",managementText:"تدار الشركة بواسطة إداريين ومهندسين ومتخصصين ذوي خبرة في مجالات الهندسة الصناعية والتخصصات الفنية، وتقدم فرقها حلولاً سريعة لمتطلبات العملاء حيثما دعت الحاجة.",standards:"المعايير الصناعية المرجعية",
+    projectsLabel:"المشاريع الجارية",projectsA:"محفظة",projectsB:"المشاريع الحالية.",owner:"مالك المشروع",projectType:"نوع المشروع",location:"الموقع",
+    address:"ص.ب. 22133، الرياض 11311، المملكة العربية السعودية",telephone:"هاتف: 011 402 4028"
   }
 };
 
@@ -120,6 +128,22 @@ export default function App() {
           </div>
         </section>
 
+        <section className="section services">
+          <div className="section-heading"><div><span className="eyebrow">{t.servicesLabel}</span><h2>{t.servicesA} <em>{t.servicesB}</em></h2></div><p>{t.servicesText}</p></div>
+          <div className="profile-grid">{divisions.map((division, index) => <article className="profile-card" key={division.title} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><h3>{division.title}</h3>{division.items.length > 0 && <><b>{t.details}</b><ul>{division.items.map(item => <li key={item}>{item}</li>)}</ul></>}</article>)}</div>
+        </section>
+
+        <section className="section management-profile">
+          <div className="section-heading"><div><span className="eyebrow">{t.managementLabel}</span><h2>{t.managementA} <em>{t.managementB}</em></h2></div><p>{t.managementText}</p></div>
+          <h3>{t.standards}</h3>
+          <div className="standards-grid">{standards.map((standard, index) => <div key={standard} data-reveal><span>{String(index + 1).padStart(2, "0")}</span>{standard}</div>)}</div>
+        </section>
+
+        <section className="section project-profile">
+          <div className="section-heading"><div><span className="eyebrow">{t.projectsLabel}</span><h2>{t.projectsA} <em>{t.projectsB}</em></h2></div></div>
+          <div className="project-table-wrap"><table><thead><tr><th>#</th><th>{t.owner}</th><th>{t.projectType}</th><th>{t.location}</th></tr></thead><tbody>{projects.map((project, index) => <tr key={`${project[0]}-${index}`}><td>{index + 1}</td><td>{project[0]}</td><td>{project[1]}</td><td>{project[2]}</td></tr>)}</tbody></table></div>
+        </section>
+
         <section id="contact-directory" className="section team">
           <div className="section-heading"><div><span className="eyebrow">{t.directoryLabel}</span><h2>{t.speakA} <em>{t.speakB}</em></h2></div><p>{t.directoryText}</p></div>
           <div className="team-grid">{team.map(person => <article key={person.id} data-reveal><div className="avatar">{person.initials}</div><span>{isAr ? person.departmentAr : person.department}</span><h3>{isAr ? person.nameAr : person.name}</h3><b>{isAr ? person.titleAr : person.title}</b><p>{t.rolePending}</p><button onClick={() => setSelected(person)}>{t.send} <ArrowUpRight /></button></article>)}</div>
@@ -130,7 +154,7 @@ export default function App() {
         </section>
       </main>
 
-      <footer><div className="footer-brand"><Logo/><p>{t.footerText}</p></div><div><b>{t.navigate}</b><a href="#about">{t.about}</a><a href="#contact-directory">{t.contactDirectory}</a><a href="#contact">{t.generalContact}</a></div><div><b>{t.information}</b><a href="#privacy">{t.privacy}</a><a href="#terms">{t.terms}</a><span>{t.publicPending}</span></div><div className="copyright">© {new Date().getFullYear()} Faall Contracting. {t.rights}<span>{t.demoApproval}</span></div></footer>
+      <footer><div className="footer-brand"><Logo/><p>{t.footerText}</p></div><div><b>{t.navigate}</b><a href="#about">{t.about}</a><a href="#contact-directory">{t.contactDirectory}</a><a href="#contact">{t.generalContact}</a></div><div><b>{t.information}</b><span>{t.address}</span><a href="tel:+966114024028">{t.telephone}</a></div><div className="copyright">© {new Date().getFullYear()} Faall Contracting. {t.rights}<span>{t.demoApproval}</span></div></footer>
       {selected && <ContactModal employee={selected} lang={lang} onClose={() => setSelected(null)} />}
     </>
   );
