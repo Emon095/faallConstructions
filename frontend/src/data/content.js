@@ -56,6 +56,25 @@ export const team = directoryRoles.map(([title, titleAr, department, departmentA
   };
 });
 
+export const leadership = [
+  {
+    name: "AHMED BIN ALI HUSSAIN ALSOUD ALGAMDI",
+    nameAr: "أحمد بن علي حسين السعود الغامدي",
+    title: "CEO",
+    titleAr: "الرئيس التنفيذي",
+    photo: `${import.meta.env.BASE_URL}assets/images/leadership/ahmed-algamdi.png`
+  },
+  {
+    name: "Jahangir Alam",
+    nameAr: "Jahangir Alam",
+    title: "Marketing Manager",
+    titleAr: "مدير التسويق",
+    contact: "00 966 50 458 8131",
+    contactHref: "tel:+966504588131",
+    photo: `${import.meta.env.BASE_URL}assets/images/leadership/jahangir-alam.png`
+  }
+];
+
 export const inquiryTypes = [
   "General Inquiry", "Project Consultation", "Request for Quotation",
   "Tender Invitation", "Supplier Inquiry", "Employment Inquiry",

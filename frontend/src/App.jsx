@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import {
-  ArrowRight, ArrowUpRight, ChevronDown, Menu, Quote, X
+  ArrowRight, ArrowUpRight, ChevronDown, Menu, X
 } from "lucide-react";
-import { divisions, projects, standards, team } from "./data/content";
+import { divisions, leadership, projects, standards, team } from "./data/content";
 import ContactModal from "./components/ContactModal";
 
 const Logo = () => <img src="./assets/logos/faall-primary-logo-trimmed.png" alt="Faall Business For Contracting Est." />;
@@ -14,7 +14,7 @@ const translations = {
     company:"01 / COMPANY",foundation:"A FOUNDATION FOR DELIVERY",aboutA:"Strong structures begin with",aboutB:"strong thinking.",
     aboutText:"Faall carefully plans and organizes its construction and technical services to secure successful projects, collaborating with clients and subcontractors to deliver on time and within the construction budget. Headquartered in Riyadh, it provides civil, architectural and construction technical support across Saudi Arabia.",
     plan:"Plan",planText:"Define the route before work begins.",coordinate:"Coordinate",coordinateText:"Keep people, information and decisions aligned.",
-    deliver:"Deliver",deliverText:"Bring projects in on time and within the construction budget.",placeholder:"Faall works with joint ventures, consultants, associates and subcontractors to build strong project relationships.",
+    deliver:"Deliver",deliverText:"Bring projects in on time and within the construction budget.",
     framework:"FAALL / DELIVERY FRAMEWORK",frameworkSteps:"PLAN — COORDINATE — BUILD",confidence:"Confidence is built into every stage—from the first review to final handover.",
     approval:"COMPANY PROFILE · OUR VISION",directoryLabel:"30-PERSON DIRECTORY",speakA:"Speak to the",speakB:"right person.",
     directoryText:"Thirty role-based profiles are ready for approved names, photos and backend-only email addresses. No recipient email is exposed to visitors.",
@@ -26,7 +26,7 @@ const translations = {
     servicesLabel:"COMPANY PROFILE",servicesA:"Our",servicesB:"divisions.",servicesText:"Civil, electro-mechanical and technical resources for construction delivery.",details:"Capabilities",
     managementLabel:"MANAGEMENT & COMPLIANCE",managementA:"Experienced.",managementB:"Technically capable.",managementText:"The company is managed by experienced administrators, engineers and specialists across industrial engineering and technical disciplines. Its teams provide prompt solutions to customer requirements wherever needed and verify compliance with manufacturers’ practices, industry codes, standards and specifications.",standards:"Referenced industry standards",
     projectsLabel:"ONGOING PROJECTS",projectsA:"Current",projectsB:"portfolio.",owner:"Project owner",projectType:"Project type",location:"Location",
-    address:"P.O. Box 22133, Riyadh 11311, Kingdom of Saudi Arabia",telephone:"Tel: 011 402 4028"
+    address:"P.O. Box 22133, Riyadh 11311, Kingdom of Saudi Arabia",telephone:"Tel: 011 402 4028",leadership:"COMPANY LEADERSHIP"
   },
   ar: {
     home:"الرئيسية",about:"من نحن",contact:"اتصل بنا",contactPerson:"تواصل مع موظف",directory:"دليل التواصل المباشر",
@@ -35,7 +35,7 @@ const translations = {
     company:"01 / الشركة",foundation:"أساسٌ راسخ للتنفيذ",aboutA:"المنشآت القوية تبدأ بـ",aboutB:"تفكير قوي.",
     aboutText:"تجمع مؤسسة فال للمقاولات بين التخطيط والتنسيق الفني والتنفيذ الميداني ضمن فريق واحد مسؤول.",
     plan:"التخطيط",planText:"تحديد المسار قبل بدء العمل.",coordinate:"التنسيق",coordinateText:"مواءمة الأشخاص والمعلومات والقرارات.",
-    deliver:"التنفيذ",deliverText:"تحويل التفكير الواضح إلى تنفيذ منضبط.",placeholder:"تاريخ الشركة والأسواق ونطاق العمل الجغرافي بانتظار المحتوى المعتمد.",
+    deliver:"التنفيذ",deliverText:"تحويل التفكير الواضح إلى تنفيذ منضبط.",
     framework:"فال / إطار التنفيذ",frameworkSteps:"خطط — نسّق — ابنِ",confidence:"نبني الثقة في كل مرحلة، من المراجعة الأولى حتى التسليم النهائي.",
     approval:"عبارة تعريفية · تتطلب اعتماد العميل",directoryLabel:"دليل يضم 30 موظفاً",speakA:"تحدث إلى",speakB:"الشخص المناسب.",
     directoryText:"ثلاثون ملفاً وظيفياً جاهزاً لإضافة الأسماء والصور وعناوين البريد المحمية بعد اعتمادها. لا يظهر بريد المستلم للزوار.",
@@ -47,7 +47,7 @@ const translations = {
     servicesLabel:"ملف الشركة",servicesA:"أقسام",servicesB:"الشركة.",servicesText:"موارد مدنية وكهروميكانيكية وفنية لتنفيذ أعمال الإنشاء.",details:"القدرات",
     managementLabel:"الإدارة والامتثال",managementA:"خبرة.",managementB:"وقدرة فنية.",managementText:"تدار الشركة بواسطة إداريين ومهندسين ومتخصصين ذوي خبرة في مجالات الهندسة الصناعية والتخصصات الفنية، وتقدم فرقها حلولاً سريعة لمتطلبات العملاء حيثما دعت الحاجة.",standards:"المعايير الصناعية المرجعية",
     projectsLabel:"المشاريع الجارية",projectsA:"محفظة",projectsB:"المشاريع الحالية.",owner:"مالك المشروع",projectType:"نوع المشروع",location:"الموقع",
-    address:"ص.ب. 22133، الرياض 11311، المملكة العربية السعودية",telephone:"هاتف: 011 402 4028"
+    address:"ص.ب. 22133، الرياض 11311، المملكة العربية السعودية",telephone:"هاتف: 011 402 4028",leadership:"قيادة الشركة"
   }
 };
 
@@ -117,14 +117,12 @@ export default function App() {
               <div><b>02</b><span><strong>{t.coordinate}</strong>{t.coordinateText}</span></div>
               <div><b>03</b><span><strong>{t.deliver}</strong>{t.deliverText}</span></div>
             </div>
-            <p className="placeholder">{t.placeholder}</p>
           </div>
-          <div className="about-visual" data-reveal aria-label="Faall delivery approach">
-            <div className="blueprint-grid" aria-hidden="true" />
-            <div className="structure-lines" aria-hidden="true"><i/><i/><i/><i/><i/></div>
-            <div className="visual-label"><span>{t.framework}</span><b>{t.frameworkSteps}</b></div>
-            <div className="visual-center"><span>F</span><i /></div>
-            <div className="about-note"><Quote /><p>{t.confidence}</p><span>{t.approval}</span></div>
+          <div className="about-leadership" data-reveal>
+            <div className="leadership-heading"><span className="eyebrow">{t.leadership}</span><p>{t.confidence}</p></div>
+            <div className="leadership-list">
+              {leadership.map(person => <article key={person.name}><img src={person.photo} alt={isAr ? person.nameAr : person.name} /><div><span>{isAr ? person.titleAr : person.title}</span><h3>{isAr ? person.nameAr : person.name}</h3>{person.contact && <a href={person.contactHref}>{person.contact}</a>}</div></article>)}
+            </div>
           </div>
         </section>
 
