@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 520" role="img" aria-labelledby="title">
+  <title id="title">Default Faall employee avatar</title>
+  <rect width="480" height="520" fill="#f0eee8"/>
+  <circle cx="240" cy="178" r="96" fill="#e55c2b"/>
+  <circle cx="240" cy="178" r="58" fill="#faf9f6"/>
+  <path d="M66 520c11-132 75-202 174-202s163 70 174 202" fill="#132226"/>
+  <path d="M158 422h164" stroke="#e55c2b" stroke-width="10"/>
+</svg>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   ArrowRight, ArrowUpRight, ChevronDown, Menu, X
 } from "lucide-react";
-import { divisions, leadership, projects, standards } from "./data/content";
+import { leadership, projects, standards } from "./data/content";
 import { employees } from "./data/employees";
 import ContactModal from "./components/ContactModal";
 import EmployeeList from "./components/EmployeeList";
@@ -12,15 +12,15 @@ const translations = {
   en: {
     home:"Home",about:"About",contact:"Contact",contactPerson:"Contact a person",directory:"Direct company directory",
     heroA:"Find the right person.",heroB:"Start the conversation.",heroText:"Reach Faall’s management, projects, engineering, commercial and support teams through one secure contact directory.",
-    browse:"Browse 30 contacts",general:"General enquiry",industry:"CONSTRUCTION · ENGINEERING · DELIVERY",demo:"Demo image — replace with company project photography",
+    browse:count => `Browse ${count} contacts`,general:"General enquiry",industry:"CONSTRUCTION · ENGINEERING · DELIVERY",demo:"Demo image — replace with company project photography",
     company:"01 / COMPANY",foundation:"A FOUNDATION FOR DELIVERY",aboutA:"Strong structures begin with",aboutB:"strong thinking.",
     aboutText:"Faall carefully plans and organizes its construction and technical services to secure successful projects, collaborating with clients and subcontractors to deliver on time and within the construction budget. Headquartered in Riyadh, it provides civil, architectural and construction technical support across Saudi Arabia.",
     plan:"Plan",planText:"Define the route before work begins.",coordinate:"Coordinate",coordinateText:"Keep people, information and decisions aligned.",
     deliver:"Deliver",deliverText:"Bring projects in on time and within the construction budget.",
     framework:"FAALL / DELIVERY FRAMEWORK",frameworkSteps:"PLAN — COORDINATE — BUILD",confidence:"Confidence is built into every stage—from the first review to final handover.",
-    approval:"COMPANY PROFILE · OUR VISION",directoryLabel:"30-PERSON DIRECTORY",speakA:"Speak to the",speakB:"right person.",
-    directoryText:"Thirty role-based profiles are ready for approved names, photos and backend-only email addresses. No recipient email is exposed to visitors.",
-    rolePending:"Name and profile details pending client approval.",send:"Send message",contactEmployee:"Contact",contactFaall:"CONTACT FAALL",
+    approval:"COMPANY PROFILE · OUR VISION",directoryLabel:count => `${count}-PERSON DIRECTORY`,speakA:"Speak to the",speakB:"right person.",
+    directoryText:count => `${count} contacts are available. No recipient email address is exposed to visitors.`,
+    contactEmployee:"Contact",employeeLabel:"Faall Employee",contactFaall:"CONTACT FAALL",
     unsure:"Not sure who you need?",startDirectory:"Start with our directory.",contactText:"Choose the closest role and your message will be routed securely once approved employee emails are configured.",
     find:"Find a contact",footerText:"Construction shaped by discipline, clarity and lasting value.",navigate:"Navigate",contactDirectory:"Contact directory",
     generalContact:"General contact",information:"Information",privacy:"Privacy",terms:"Terms",publicPending:"Public contact details pending",
@@ -33,15 +33,15 @@ const translations = {
   ar: {
     home:"الرئيسية",about:"من نحن",contact:"اتصل بنا",contactPerson:"تواصل مع موظف",directory:"دليل التواصل المباشر",
     heroA:"اعثر على الشخص المناسب.",heroB:"وابدأ المحادثة.",heroText:"تواصل مع فرق الإدارة والمشاريع والهندسة والشؤون التجارية والدعم في مؤسسة فال عبر دليل اتصال آمن واحد.",
-    browse:"تصفح 30 جهة اتصال",general:"استفسار عام",industry:"الإنشاءات · الهندسة · التنفيذ",demo:"صورة تجريبية — تُستبدل بصور مشاريع الشركة",
+    browse:count => `تصفح ${count} جهات اتصال`,general:"استفسار عام",industry:"الإنشاءات · الهندسة · التنفيذ",demo:"صورة تجريبية — تُستبدل بصور مشاريع الشركة",
     company:"01 / الشركة",foundation:"أساسٌ راسخ للتنفيذ",aboutA:"المنشآت القوية تبدأ بـ",aboutB:"تفكير قوي.",
     aboutText:"تجمع مؤسسة فال للمقاولات بين التخطيط والتنسيق الفني والتنفيذ الميداني ضمن فريق واحد مسؤول.",
     plan:"التخطيط",planText:"تحديد المسار قبل بدء العمل.",coordinate:"التنسيق",coordinateText:"مواءمة الأشخاص والمعلومات والقرارات.",
     deliver:"التنفيذ",deliverText:"تحويل التفكير الواضح إلى تنفيذ منضبط.",
     framework:"فال / إطار التنفيذ",frameworkSteps:"خطط — نسّق — ابنِ",confidence:"نبني الثقة في كل مرحلة، من المراجعة الأولى حتى التسليم النهائي.",
-    approval:"عبارة تعريفية · تتطلب اعتماد العميل",directoryLabel:"دليل يضم 30 موظفاً",speakA:"تحدث إلى",speakB:"الشخص المناسب.",
-    directoryText:"ثلاثون ملفاً وظيفياً جاهزاً لإضافة الأسماء والصور وعناوين البريد المحمية بعد اعتمادها. لا يظهر بريد المستلم للزوار.",
-    rolePending:"الاسم وتفاصيل الملف المهني بانتظار اعتماد العميل.",send:"إرسال رسالة",contactEmployee:"تواصل مع",contactFaall:"تواصل مع فال",
+    approval:"عبارة تعريفية · تتطلب اعتماد العميل",directoryLabel:count => `دليل يضم ${count} موظفين`,speakA:"تحدث إلى",speakB:"الشخص المناسب.",
+    directoryText:count => `تتوفر ${count} جهات اتصال. لا يظهر عنوان بريد المستلم للزوار.`,
+    contactEmployee:"تواصل مع",employeeLabel:"موظف فال",contactFaall:"تواصل مع فال",
     unsure:"لست متأكداً بمن تتواصل؟",startDirectory:"ابدأ من دليلنا.",contactText:"اختر الدور الأقرب إلى احتياجك وسيتم توجيه رسالتك بأمان بعد إعداد عناوين البريد المعتمدة.",
     find:"اعثر على جهة اتصال",footerText:"إنشاءات تقوم على الانضباط والوضوح والقيمة المستدامة.",navigate:"التنقل",contactDirectory:"دليل التواصل",
     generalContact:"التواصل العام",information:"المعلومات",privacy:"الخصوصية",terms:"الشروط",publicPending:"بيانات التواصل العامة قيد الإضافة",
@@ -101,7 +101,7 @@ export default function App() {
             <span className="eyebrow light"><i /> {t.directory}</span>
             <h1>{t.heroA}<br/><em>{t.heroB}</em></h1>
             <p>{t.heroText}</p>
-            <div className="hero-actions"><a className="btn btn-accent" href="#contact-directory">{t.browse} <ArrowRight /></a><a className="text-link" href="#contact">{t.general} <ChevronDown /></a></div>
+            <div className="hero-actions"><a className="btn btn-accent" href="#contact-directory">{t.browse(employees.length)} <ArrowRight /></a><a className="text-link" href="#contact">{t.general} <ChevronDown /></a></div>
           </div>
           <div className="hero-foot"><span>{t.industry}</span><span>{t.demo}</span></div>
         </section>
@@ -128,11 +128,6 @@ export default function App() {
           </div>
         </section>
 
-        <section className="section services">
-          <div className="section-heading"><div><span className="eyebrow">{t.servicesLabel}</span><h2>{t.servicesA} <em>{t.servicesB}</em></h2></div><p>{t.servicesText}</p></div>
-          <div className="profile-grid">{divisions.map((division, index) => <article className="profile-card" key={division.title} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><h3>{division.title}</h3>{division.items.length > 0 && <><b>{t.details}</b><ul>{division.items.map(item => <li key={item}>{item}</li>)}</ul></>}</article>)}</div>
-        </section>
-
         <section className="section management-profile">
           <div className="section-heading"><div><span className="eyebrow">{t.managementLabel}</span><h2>{t.managementA} <em>{t.managementB}</em></h2></div><p>{t.managementText}</p></div>
           <h3>{t.standards}</h3>
@@ -145,8 +140,8 @@ export default function App() {
         </section>
 
         <section id="contact-directory" className="section team">
-          <div className="section-heading"><div><span className="eyebrow">{t.directoryLabel}</span><h2>{t.speakA} <em>{t.speakB}</em></h2></div><p>{t.directoryText}</p></div>
-          <EmployeeList employees={employees} lang={lang} contactLabel={t.contactEmployee} pendingLabel={t.rolePending} onContact={setSelected} />
+          <div className="section-heading"><div><span className="eyebrow">{t.directoryLabel(employees.length)}</span><h2>{t.speakA} <em>{t.speakB}</em></h2></div><p>{t.directoryText(employees.length)}</p></div>
+          <EmployeeList employees={employees} lang={lang} contactLabel={t.contactEmployee} employeeLabel={t.employeeLabel} onContact={setSelected} />
         </section>
 
         <section id="contact" className="contact">

@@ -1,28 +1,24 @@
 import { ArrowUpRight } from "lucide-react";
 
-const fallbackAvatar = "/images/employees/default-avatar.svg";
+const defaultAvatar = "/images/default-employee-avatar.svg";
 
-export default function EmployeeCard({ employee, lang, contactLabel, pendingLabel, onContact }) {
+export default function EmployeeCard({ employee, lang, contactLabel, employeeLabel, onContact }) {
   const isAr = lang === "ar";
   const name = isAr ? employee.nameAr : employee.name;
-  const role = isAr ? employee.roleAr : employee.role;
-  const department = isAr ? employee.departmentAr : employee.department;
 
-  const useFallback = (event) => {
-    if (event.currentTarget.src.endsWith(fallbackAvatar)) return;
-    event.currentTarget.src = fallbackAvatar;
+  const useDefaultAvatar = (event) => {
+    if (event.currentTarget.src.endsWith(defaultAvatar)) return;
+    event.currentTarget.src = defaultAvatar;
   };
 
   return (
     <article className="employee-card" data-reveal>
       <div className="employee-photo">
-        <img src={employee.image || fallbackAvatar} alt="" onError={useFallback} />
+        <img src={employee.image || defaultAvatar} alt={name} onError={useDefaultAvatar} />
       </div>
+      <span className="employee-label">{employeeLabel}</span>
       <div className="employee-card-copy">
-        <span>{department}</span>
         <h3>{name}</h3>
-        <b>{role}</b>
-        <p>{pendingLabel}</p>
       </div>
       <button type="button" onClick={() => onContact(employee)}>
         {contactLabel} {name} <ArrowUpRight />

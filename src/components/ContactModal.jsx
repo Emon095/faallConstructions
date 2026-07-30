@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { X, Paperclip, Trash2, CheckCircle2, AlertCircle } from "lucide-react";
-import { inquiryTypes } from "../data/content";
 
 const accepted = [".pdf", ".doc", ".docx", ".xls", ".xlsx", ".png", ".jpg", ".jpeg"];
 const maxSize = 5 * 1024 * 1024;
-const arInquiryTypes = ["استفسار عام","استشارة مشروع","طلب عرض سعر","دعوة مناقصة","استفسار مورد","استفسار توظيف","فرصة شراكة","دعم مشروع قائم","أخرى"];
 const modalCopy = {
-  en:{secure:"SECURE CONTACT FORM",received:"Message received.",send:"Send a message",intro:"Complete the form below and we’ll route your enquiry securely.",success:"Your message has been sent to our team successfully. A representative will respond using the contact details you provided.",done:"Done",to:"YOUR MESSAGE WILL BE SENT TO",details:"Your details",detailsHelp:"So our team can respond to you",fullName:"Full name",email:"Email address",phone:"Phone number",company:"Company",optional:"Optional",namePh:"Enter your full name",companyPh:"Company name",messageSection:"Your message",messageHelp:"Tell us how we can help",inquiry:"Inquiry type",select:"Select inquiry type",subject:"Subject",subjectPh:"What would you like to discuss?",message:"Message",messagePh:"Share the key details of your enquiry…",attach:"Attach documents",attachHelp:"PDF, Office, PNG or JPG · up to 5 MB each · max 3",choose:"Choose files",cancel:"Cancel",sending:"Sending your message…",sendButton:"Send message",privacy:"Recipient details remain protected. Your information is used only to respond to this enquiry.",close:"Close message form"},
-  ar:{secure:"نموذج تواصل آمن",received:"تم استلام الرسالة.",send:"إرسال رسالة",intro:"أكمل النموذج وسنوجّه استفسارك بأمان إلى الشخص المناسب.",success:"تم إرسال رسالتك إلى فريقنا بنجاح. سيتواصل معك أحد ممثلينا عبر البيانات التي قدمتها.",done:"تم",to:"سيتم إرسال رسالتك إلى",details:"بياناتك",detailsHelp:"حتى يتمكن فريقنا من الرد عليك",fullName:"الاسم الكامل",email:"البريد الإلكتروني",phone:"رقم الهاتف",company:"الشركة",optional:"اختياري",namePh:"أدخل اسمك الكامل",companyPh:"اسم الشركة",messageSection:"رسالتك",messageHelp:"أخبرنا كيف يمكننا مساعدتك",inquiry:"نوع الاستفسار",select:"اختر نوع الاستفسار",subject:"الموضوع",subjectPh:"ما الموضوع الذي ترغب في مناقشته؟",message:"الرسالة",messagePh:"شارك التفاصيل الأساسية لاستفسارك…",attach:"إرفاق مستندات",attachHelp:"PDF أو Office أو PNG أو JPG · بحد أقصى 5 ميجابايت للملف · 3 ملفات",choose:"اختر الملفات",cancel:"إلغاء",sending:"جارٍ إرسال رسالتك…",sendButton:"إرسال الرسالة",privacy:"تبقى بيانات المستلم محمية. تُستخدم معلوماتك فقط للرد على هذا الاستفسار.",close:"إغلاق نموذج الرسالة"}
+  en:{secure:"SECURE CONTACT FORM",received:"Message received.",send:"Send a message",intro:"Complete the form below and we’ll route your enquiry securely.",success:"Your message has been sent to our team successfully. A representative will respond using the contact details you provided.",done:"Done",to:"YOUR MESSAGE WILL BE SENT TO",details:"Your details",detailsHelp:"So our team can respond to you",fullName:"Full name",email:"Email address",phone:"Phone number",company:"Company",optional:"Optional",namePh:"Enter your full name",companyPh:"Company name",messageSection:"Your message",messageHelp:"Tell us how we can help",subject:"Subject",subjectPh:"What would you like to discuss?",message:"Message",messagePh:"Share the key details of your enquiry…",attach:"Attach documents",attachHelp:"PDF, Office, PNG or JPG · up to 5 MB each · max 3",choose:"Choose files",cancel:"Cancel",sending:"Sending your message…",sendButton:"Send message",privacy:"Recipient details remain protected. Your information is used only to respond to this enquiry.",close:"Close message form"},
+  ar:{secure:"نموذج تواصل آمن",received:"تم استلام الرسالة.",send:"إرسال رسالة",intro:"أكمل النموذج وسنوجّه استفسارك بأمان إلى الشخص المناسب.",success:"تم إرسال رسالتك إلى فريقنا بنجاح. سيتواصل معك أحد ممثلينا عبر البيانات التي قدمتها.",done:"تم",to:"سيتم إرسال رسالتك إلى",details:"بياناتك",detailsHelp:"حتى يتمكن فريقنا من الرد عليك",fullName:"الاسم الكامل",email:"البريد الإلكتروني",phone:"رقم الهاتف",company:"الشركة",optional:"اختياري",namePh:"أدخل اسمك الكامل",companyPh:"اسم الشركة",messageSection:"رسالتك",messageHelp:"أخبرنا كيف يمكننا مساعدتك",subject:"الموضوع",subjectPh:"ما الموضوع الذي ترغب في مناقشته؟",message:"الرسالة",messagePh:"شارك التفاصيل الأساسية لاستفسارك…",attach:"إرفاق مستندات",attachHelp:"PDF أو Office أو PNG أو JPG · بحد أقصى 5 ميجابايت للملف · 3 ملفات",choose:"اختر الملفات",cancel:"إلغاء",sending:"جارٍ إرسال رسالتك…",sendButton:"إرسال الرسالة",privacy:"تبقى بيانات المستلم محمية. تُستخدم معلوماتك فقط للرد على هذا الاستفسار.",close:"إغلاق نموذج الرسالة"}
 };
 
 export default function ContactModal({ employee, lang = "en", onClose }) {
@@ -91,7 +89,7 @@ export default function ContactModal({ employee, lang = "en", onClose }) {
             <input name="website" className="honeypot" tabIndex="-1" autoComplete="off" aria-hidden="true" />
             <div className="recipient-summary">
               <div className="recipient-avatar">{employee.name.split(/\s+/).slice(0, 2).map(word => word[0]).join("")}</div>
-              <div><small>{c.to}</small><strong>{isAr ? employee.nameAr : employee.name}</strong><span>{isAr ? employee.roleAr : employee.role} · {isAr ? employee.departmentAr : employee.department}</span></div>
+              <div><small>{c.to}</small><strong>{isAr ? employee.nameAr : employee.name}</strong></div>
               <CheckCircle2 aria-label="Recipient selected" />
             </div>
             <div className="form-section-title"><span>1</span><div><strong>{c.details}</strong><small>{c.detailsHelp}</small></div></div>
@@ -103,9 +101,6 @@ export default function ContactModal({ employee, lang = "en", onClose }) {
             </div>
             <div className="form-section-title"><span>2</span><div><strong>{c.messageSection}</strong><small>{c.messageHelp}</small></div></div>
             <div className="form-grid">
-              <label className="span-2">{c.inquiry} *
-                <select name="inquiryType" required defaultValue=""><option value="" disabled>{c.select}</option>{inquiryTypes.map((x,i) => <option key={x} value={x}>{isAr ? arInquiryTypes[i] : x}</option>)}</select>
-              </label>
               <label className="span-2">{c.subject} <b>*</b><input name="subject" required minLength="3" maxLength="150" placeholder={c.subjectPh} /></label>
               <label className="span-2">{c.message} <b>*</b><textarea name="message" required minLength="20" maxLength="5000" rows="5" placeholder={c.messagePh} /></label>
             </div>

@@ -26,12 +26,6 @@ export const leadership = [
   }
 ];
 
-export const inquiryTypes = [
-  "General Inquiry", "Project Consultation", "Request for Quotation",
-  "Tender Invitation", "Supplier Inquiry", "Employment Inquiry",
-  "Partnership Opportunity", "Existing Project Support", "Other"
-];
-
 export const divisions = [
   { title: "Civil Construction", items: ["Building construction", "Structural steel work", "Structural concrete work", "Civil finishing works", "Painting works", "Asphalt paving", "Gypsum-board partitions and ceilings", "Carpentry works", "Aluminum doors and windows", "Plumbing works", "Concrete works", "Civil maintenance", "Fencing works", "Swimming pools", "Landscaping and beautification"] },
   { title: "Electro-Mechanical", items: ["Steel doors and grills fabrication and installation", "Steel-building supply and erection", "Fire-fighting systems", "Laboratory casework and fume cupboards for industrial, laboratory and medical gases", "Welding", "Mechanical maintenance", "HVAC installation and maintenance", "Electrical and instrumentation", "Fusion-bonded epoxy coating systems", "Pipeline and process-piping erection", "RTR piping"] },

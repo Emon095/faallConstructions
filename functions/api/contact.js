@@ -1,8 +1,3 @@
-const inquiryTypes = new Set([
-  "General Inquiry", "Project Consultation", "Request for Quotation", "Tender Invitation",
-  "Supplier Inquiry", "Employment Inquiry", "Partnership Opportunity",
-  "Existing Project Support", "Other"
-]);
 const allowedExtensions = new Set(["pdf", "doc", "docx", "xls", "xlsx", "png", "jpg", "jpeg"]);
 const allowedMimeTypes = new Set([
   "application/pdf", "application/msword",
@@ -10,13 +5,8 @@ const allowedMimeTypes = new Set([
   "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   "image/png", "image/jpeg"
 ]);
-const departments = [
-  "Management", "Management", "Operations", "Projects", "Projects", "Projects", "Projects", "Projects",
-  "Project Controls", "Project Controls", "Commercial", "Commercial", "Business Development",
-  "Business Development", "Engineering", "Engineering", "Engineering", "Engineering", "Engineering",
-  "Procurement", "Procurement", "Contracts", "Health & Safety", "Health & Safety", "Quality", "Quality",
-  "Finance", "Human Resources", "Administration", "Administration"
-];
+const employeeNames = ["Fahad", "Bader", "Ali"];
+const departments = employeeNames.map(() => "Faall Employee");
 const hits = new Map();
 const value = input => String(input || "").trim();
 const headerSafe = input => !/[\r\n]/.test(input);
@@ -77,7 +67,7 @@ function emailHtml(data) {
     <div style="padding:32px"><table style="border-collapse:collapse;width:100%">
       ${row("Recipient", data.employeeName)}${row("Department", data.department)}${row("Sender", data.name)}
       ${row("Email", data.email)}${row("Phone", data.phone)}${row("Company", data.company)}
-      ${row("Inquiry type", data.inquiryType)}${row("Subject", data.subject)}${row("Submitted", data.submittedAt)}
+      ${row("Subject", data.subject)}${row("Submitted", data.submittedAt)}
       ${row("Website source", data.source)}${row("Attachments", data.attachmentNames)}
     </table><div style="margin-top:24px;padding:22px;background:#f4f3ef;border-left:4px solid #e55c2b;line-height:1.65;white-space:pre-wrap">${escapeHtml(data.message)}</div></div>
     <div style="padding:18px 32px;color:#788286;font-size:12px;border-top:1px solid #e2e5e2">Reply directly to this email to respond to the sender.</div>
@@ -110,12 +100,11 @@ export async function onRequestPost(context) {
       email: value(form.get("email")).toLowerCase(),
       phone: value(form.get("phone")),
       company: value(form.get("company")),
-      inquiryType: value(form.get("inquiryType")),
       subject: value(form.get("subject")),
       message: value(form.get("message"))
     };
 
-    if (!number || (!dryRun && !recipient) || !data.name || !data.subject || !data.message || !inquiryTypes.has(data.inquiryType)) {
+    if (!number || (!dryRun && !recipient) || !data.name || !data.subject || !data.message) {
       return json(request, { error: "Please check the form and try again." }, 400);
     }
     if (data.name.length > 100 || data.company.length > 120 || data.subject.length < 3 || data.subject.length > 150 || data.message.length < 20 || data.message.length > 5000) {
@@ -148,7 +137,7 @@ export async function onRequestPost(context) {
 
     const emailData = {
       ...data,
-      employeeName: `Employee ${Number(number).toString().padStart(2, "0")}`,
+      employeeName: employeeNames[Number(number) - 1],
       department: departments[Number(number) - 1],
       submittedAt: new Date().toISOString(),
       source: "Faall Contracting website",
@@ -158,7 +147,6 @@ export async function onRequestPost(context) {
     if (dryRun) {
       console.info("Contact dry run accepted", {
         employeeId: `EMPLOYEE_${number}`,
-        inquiryType: data.inquiryType,
         attachmentCount: attachments.length
       });
       return json(request, { ok: true });
@@ -168,23 +156,17 @@ export async function onRequestPost(context) {
       return json(request, { error: "Message delivery is temporarily unavailable." }, 503);
     }
 
-    const resendResponse = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${env.RESEND_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        from: env.EMAIL_FROM_ADDRESS,
-        to: [recipient],
-        reply_to: data.email,
-        subject: `[Website] ${data.subject}`,
-        html: emailHtml(emailData),
-        attachments
-      })
+    const resend = new Resend(env.RESEND_API_KEY);
+    const result = await resend.emails.send({
+      from: env.EMAIL_FROM_ADDRESS,
+      to: recipient,
+      replyTo: data.email,
+      subject: `[Website] ${data.subject}`,
+      html: emailHtml(emailData),
+      attachments
     });
-    if (!resendResponse.ok) {
-      console.error("Resend rejected contact delivery.", { status: resendResponse.status });
+    if (result.error) {
+      console.error("Resend rejected contact delivery.", { name: result.error.name });
       return json(request, { error: "We could not send your message. Please try again." }, 502);
     }
     return json(request, { ok: true });
@@ -193,3 +175,4 @@ export async function onRequestPost(context) {
     return json(request, { error: "We could not process your message. Please check the form and try again." }, 400);
   }
 }
+import { Resend } from "resend";

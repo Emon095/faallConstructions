@@ -1,6 +1,6 @@
 import EmployeeCard from "./EmployeeCard";
 
-export default function EmployeeList({ employees, lang, contactLabel, pendingLabel, onContact }) {
+export default function EmployeeList({ employees, lang, contactLabel, employeeLabel, onContact }) {
   return (
     <div className="employee-grid">
       {employees.map(employee => (
@@ -9,7 +9,7 @@ export default function EmployeeList({ employees, lang, contactLabel, pendingLab
           employee={employee}
           lang={lang}
           contactLabel={contactLabel}
-          pendingLabel={pendingLabel}
+          employeeLabel={employeeLabel}
           onContact={onContact}
         />
       ))}
