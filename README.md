@@ -31,7 +31,7 @@ Keep `CONTACT_DRY_RUN=true` during safe local form testing. The browser always s
 
 1. Import this repository in Cloudflare Pages.
 2. Set the framework preset to **Vite**, build command to `npm run build`, and output directory to `dist`.
-3. Add `RESEND_API_KEY`, `EMAIL_FROM_ADDRESS`, `CONTACT_DRY_RUN`, and `EMPLOYEE_001_EMAIL` through `EMPLOYEE_003_EMAIL` under **Settings → Variables and Secrets**. Store credentials and recipient addresses as encrypted secrets.
+3. Add `RESEND_API_KEY`, `EMAIL_FROM_ADDRESS`, `ADMIN_NOTIFICATION_EMAIL`, `CONTACT_DRY_RUN`, and `EMPLOYEE_001_EMAIL` through `EMPLOYEE_003_EMAIL` under **Settings → Variables and Secrets**. Store credentials and recipient addresses as encrypted secrets. If employee delivery is rejected, the Function forwards the enquiry to `ADMIN_NOTIFICATION_EMAIL` for manual handling.
 4. Verify the `EMAIL_FROM_ADDRESS` sender or domain in Resend. The temporary `onboarding@resend.dev` sender is intended only for testing with the Resend account owner’s email address.
 5. Deploy, then test successful delivery, invalid input, attachments, rate limiting, and cross-origin rejection.
 

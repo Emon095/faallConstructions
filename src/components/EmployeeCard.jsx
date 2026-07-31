@@ -5,6 +5,7 @@ const defaultAvatar = "/images/default-employee-avatar.svg";
 export default function EmployeeCard({ employee, lang, contactLabel, employeeLabel, onContact }) {
   const isAr = lang === "ar";
   const name = isAr ? employee.nameAr : employee.name;
+  const position = isAr ? employee.positionAr : employee.position;
 
   const useDefaultAvatar = (event) => {
     if (event.currentTarget.src.endsWith(defaultAvatar)) return;
@@ -18,7 +19,16 @@ export default function EmployeeCard({ employee, lang, contactLabel, employeeLab
       </div>
       <span className="employee-label">{employeeLabel}</span>
       <div className="employee-card-copy">
-        <h3>{name}</h3>
+        <div>
+          <h3>{name}</h3>
+          {position && <p className="employee-position">{position}</p>}
+          {(employee.email || employee.phone) && (
+            <address className="employee-contact">
+              {employee.email && <a href={`mailto:${employee.email}`}>{employee.email}</a>}
+              {employee.phone && <a href={employee.phoneHref}>{employee.phone}</a>}
+            </address>
+          )}
+        </div>
       </div>
       <button type="button" onClick={() => onContact(employee)}>
         {contactLabel} {name} <ArrowUpRight />

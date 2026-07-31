@@ -38,7 +38,7 @@ No automated suite is configured. Before submitting, run `npm run build`, `npm r
 
 ## Security & Email Configuration
 
-Never commit API keys, sender credentials, or recipient addresses. Configure `RESEND_API_KEY`, `EMAIL_FROM_ADDRESS`, `EMPLOYEE_001_EMAIL` through `EMPLOYEE_003_EMAIL`, and `CONTACT_DRY_RUN` as Cloudflare secrets. Resend delivery uses the SDK inside the Function; the frontend must call relative `/api/contact`.
+Never commit API keys, sender credentials, or recipient addresses. Configure `RESEND_API_KEY`, `EMAIL_FROM_ADDRESS`, `ADMIN_NOTIFICATION_EMAIL`, `EMPLOYEE_001_EMAIL` through `EMPLOYEE_003_EMAIL`, and `CONTACT_DRY_RUN` as Cloudflare secrets. Resend delivery uses the SDK inside the Function; the frontend must call relative `/api/contact`. Preserve the failure-only administrator fallback without exposing either destination.
 
 Use `CONTACT_DRY_RUN=true` for validation without delivery. Production requires `false` and an `EMAIL_FROM_ADDRESS` on a verified Resend domain; `onboarding@resend.dev` is test-only. Preserve server-side mapping, validation, attachment limits, HTML escaping, same-origin CORS, and rate limiting.
 

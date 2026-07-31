@@ -5,7 +5,7 @@ const allowedMimeTypes = new Set([
   "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   "image/png", "image/jpeg"
 ]);
-const employeeNames = ["Fahad", "Bader", "Ali"];
+const employeeNames = ["Fahad", "Bader", "Ali", "Jahangir Alam"];
 const departments = employeeNames.map(() => "Faall Employee");
 const hits = new Map();
 const value = input => String(input || "").trim();

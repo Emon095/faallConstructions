@@ -19,7 +19,6 @@ const translations = {
     deliver:"Deliver",deliverText:"Bring projects in on time and within the construction budget.",
     framework:"FAALL / DELIVERY FRAMEWORK",frameworkSteps:"PLAN — COORDINATE — BUILD",confidence:"Confidence is built into every stage—from the first review to final handover.",
     approval:"COMPANY PROFILE · OUR VISION",directoryLabel:count => `${count}-PERSON DIRECTORY`,speakA:"Speak to the",speakB:"right person.",
-    directoryText:count => `${count} contacts are available. No recipient email address is exposed to visitors.`,
     contactEmployee:"Contact",employeeLabel:"Faall Employee",contactFaall:"CONTACT FAALL",
     unsure:"Not sure who you need?",startDirectory:"Start with our directory.",contactText:"Choose the closest role and your message will be routed securely once approved employee emails are configured.",
     find:"Find a contact",footerText:"Construction shaped by discipline, clarity and lasting value.",navigate:"Navigate",contactDirectory:"Contact directory",
@@ -40,7 +39,6 @@ const translations = {
     deliver:"التنفيذ",deliverText:"تحويل التفكير الواضح إلى تنفيذ منضبط.",
     framework:"فال / إطار التنفيذ",frameworkSteps:"خطط — نسّق — ابنِ",confidence:"نبني الثقة في كل مرحلة، من المراجعة الأولى حتى التسليم النهائي.",
     approval:"عبارة تعريفية · تتطلب اعتماد العميل",directoryLabel:count => `دليل يضم ${count} موظفين`,speakA:"تحدث إلى",speakB:"الشخص المناسب.",
-    directoryText:count => `تتوفر ${count} جهات اتصال. لا يظهر عنوان بريد المستلم للزوار.`,
     contactEmployee:"تواصل مع",employeeLabel:"موظف فال",contactFaall:"تواصل مع فال",
     unsure:"لست متأكداً بمن تتواصل؟",startDirectory:"ابدأ من دليلنا.",contactText:"اختر الدور الأقرب إلى احتياجك وسيتم توجيه رسالتك بأمان بعد إعداد عناوين البريد المعتمدة.",
     find:"اعثر على جهة اتصال",footerText:"إنشاءات تقوم على الانضباط والوضوح والقيمة المستدامة.",navigate:"التنقل",contactDirectory:"دليل التواصل",
@@ -140,7 +138,7 @@ export default function App() {
         </section>
 
         <section id="contact-directory" className="section team">
-          <div className="section-heading"><div><span className="eyebrow">{t.directoryLabel(employees.length)}</span><h2>{t.speakA} <em>{t.speakB}</em></h2></div><p>{t.directoryText(employees.length)}</p></div>
+          <div className="section-heading"><div><span className="eyebrow">{t.directoryLabel(employees.length)}</span><h2>{t.speakA} <em>{t.speakB}</em></h2></div></div>
           <EmployeeList employees={employees} lang={lang} contactLabel={t.contactEmployee} employeeLabel={t.employeeLabel} onContact={setSelected} />
         </section>
 
