@@ -7,6 +7,7 @@ const directory = [
     "Jahangir Alam",
     `${import.meta.env.BASE_URL}assets/images/leadership/jahangir-alam.png`,
     {
+      featured: true,
       position: "Marketing Manager",
       positionAr: "مدير التسويق",
       email: "Jahangir@faallbusiness.com",
@@ -16,13 +17,15 @@ const directory = [
   ]
 ];
 
-export const employees = directory.map(([name, nameAr, image, details = {}], index) => {
-  const number = String(index + 1).padStart(2, "0");
-  return {
-    id: `emp_${number}`,
-    name,
-    nameAr,
-    image,
-    ...details
-  };
-});
+export const employees = directory
+  .map(([name, nameAr, image, details = {}], index) => {
+    const number = String(index + 1).padStart(2, "0");
+    return {
+      id: `emp_${number}`,
+      name,
+      nameAr,
+      image,
+      ...details
+    };
+  })
+  .sort((employeeA, employeeB) => Number(Boolean(employeeB.featured)) - Number(Boolean(employeeA.featured)));
