@@ -13,6 +13,8 @@ export const leadership = [
     nameAr: "أحمد بن علي حسين السعود الغامدي",
     title: "CEO",
     titleAr: "الرئيس التنفيذي",
+    contact: "055 500 3008",
+    contactHref: "tel:+966555003008",
     photo: `${import.meta.env.BASE_URL}assets/images/leadership/ahmed-algamdi.png`
   },
   {
