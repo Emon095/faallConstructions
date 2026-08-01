@@ -1,6 +1,6 @@
 # Faall Contracting Project Handbook
 
-This document is the authoritative handoff for developers and agents working on the Faall Contracting website. It describes the system as deployed on 2026-08-01. Update it whenever architecture, production services, employee routing, secrets, DNS, or operational procedures change.
+This document is the authoritative handoff for developers and agents working on the Faall Contracting website. It describes the system as deployed on 2026-08-02. Update it whenever architecture, production services, employee routing, secrets, DNS, monitoring, or operational procedures change.
 
 ## 1. Product overview
 
@@ -49,6 +49,7 @@ The frontend never receives the private employee destination. It sends only a st
 - Lucide React icons
 - Cloudflare static assets and serverless runtime
 - Resend Node SDK
+- Microsoft Clarity analytics
 - GitHub Actions and Wrangler 4
 
 There is no database, CMS, automated test suite, or durable queue.
@@ -409,6 +410,18 @@ https://faallconstructions.com/sitemap.xml
 
 Indexing is not immediate or guaranteed. A verified Google Business Profile is separate and recommended for local Search/Maps visibility.
 
+### Microsoft Clarity monitoring
+
+Microsoft Clarity is installed globally in `index.html` using the manual tracking snippet. The public Clarity project ID is:
+
+```text
+xvpacrbdop
+```
+
+The tracking script loads asynchronously from `https://www.clarity.ms/tag/xvpacrbdop` on both English and Arabic views. The project ID is not a secret. Manage recordings, heatmaps, masking, team access, retention, consent behavior, and IP blocking in the Microsoft Clarity dashboard.
+
+Clarity masks sensitive content by default, but any future change that deliberately unmasks form fields requires a privacy review. Do not expose private employee recipient secrets or submitted attachment contents to analytics.
+
 ## 12. Local development
 
 Required: Node.js 24 and npm.
@@ -503,6 +516,8 @@ git diff --check
 - `robots.txt` permits search
 - `sitemap.xml` returns HTTP 200 and `application/xml`
 - Canonical URL and social images use the custom domain
+- Clarity loads `https://www.clarity.ms/tag/xvpacrbdop` without console or Content Security Policy errors
+- Contact-form fields remain masked in Clarity recordings
 
 ## 14. Common incidents
 
@@ -562,4 +577,3 @@ Finish domain onboarding and DNS verification first. Remove conflicting Namechea
 8. Observe GitHub Actions.
 9. Verify the custom domain independently of preview URLs.
 10. Update this handbook if the system or operational truth changed.
-
