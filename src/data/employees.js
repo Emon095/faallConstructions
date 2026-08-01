@@ -10,7 +10,7 @@ const directory = [
       featured: true,
       position: "Marketing Manager",
       positionAr: "مدير التسويق",
-      email: "Jahangir@faallbusiness.com",
+      email: "Jahangir@faallconstructions.com",
       phone: "00 966 50 458 8131",
       phoneHref: "tel:+966504588131"
     }
