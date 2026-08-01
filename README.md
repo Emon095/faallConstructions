@@ -1,45 +1,47 @@
 # Faall Contracting website
 
-A unified React/Vite website and native Cloudflare Pages Functions contact API. The static app and `/api/contact` Function deploy together on one Cloudflare Pages domain.
+Production website for Faall Contracting, built with React and Vite and backed by a same-origin Cloudflare contact endpoint.
 
-## Project structure
+- Production: [faallconstructions.com](https://faallconstructions.com/)
+- Frontend: React 18 + Vite 6
+- Runtime: Cloudflare Workers/Pages
+- Email delivery: Resend
+- Languages: English and Arabic/RTL
 
-- `src/` — React application, components, styles, company content, and employee data
-- `public/` — logos, project imagery, leadership portraits, and employee placeholders
-- `functions/api/contact.js` — Cloudflare Pages contact endpoint
-- `dist/` — generated production assets
+## Start here
+
+The complete architecture, deployment, DNS, email, employee-routing, SEO, testing, and incident guide is in [`docs/PROJECT-HANDBOOK.md`](docs/PROJECT-HANDBOOK.md).
+
+Agent-specific invariants and repository rules are in [`AGENTS.md`](AGENTS.md).
 
 ## Local development
 
-Requires Node.js 20+.
+Use Node.js 24:
 
 ```bash
 npm ci
 npm run dev
 ```
 
-Vite serves the interface at `http://localhost:5173`. To exercise the Pages Function locally, build first and use Wrangler:
+Vite serves the UI but not the Cloudflare Function. For integrated testing:
 
 ```bash
 npm run build
 npx wrangler pages dev dist
 ```
 
-Keep `CONTACT_DRY_RUN=true` during safe local form testing. The browser always submits to the same-origin `/api/contact` endpoint.
-
-## Cloudflare Pages deployment
-
-1. Import this repository in Cloudflare Pages.
-2. Set the framework preset to **Vite**, build command to `npm run build`, and output directory to `dist`.
-3. Add `RESEND_API_KEY`, `EMAIL_FROM_ADDRESS`, `ADMIN_NOTIFICATION_EMAIL`, `CONTACT_DRY_RUN`, and `EMPLOYEE_001_EMAIL` through `EMPLOYEE_003_EMAIL` under **Settings → Variables and Secrets**. Store credentials and recipient addresses as encrypted secrets. If employee delivery is rejected, the Function forwards the enquiry to `ADMIN_NOTIFICATION_EMAIL` for manual handling.
-4. Verify the `EMAIL_FROM_ADDRESS` sender or domain in Resend. The temporary `onboarding@resend.dev` sender is intended only for testing with the Resend account owner’s email address.
-5. Deploy, then test successful delivery, invalid input, attachments, rate limiting, and cross-origin rejection.
-
-Employee IDs map to recipient secrets only inside the Function. Recipient email addresses are never included in client code or API responses. Each attachment is restricted to PDF, Office, PNG, or JPEG formats, 5 MB per file, three files, and 15 MB total.
-
-## Validation
+## Required checks
 
 ```bash
 npm run build
 npm run check:functions
+git diff --check
 ```
+
+## Deployment
+
+Pushes to `main` trigger `.github/workflows/deploy-pages.yml`, which builds and uploads `dist/` plus the `functions/` directory to the Direct Upload Pages project `faall-constructions`.
+
+The Cloudflare account also contains a Git-connected Worker named `faallconstructions`. See the handbook before changing either project: the duplicate deployment paths are a known operational concern.
+
+Never commit `dist/`, API keys, deployment credentials, or private recipient addresses.
