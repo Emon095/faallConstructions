@@ -48,24 +48,28 @@ export default function ContactModal({ employee, lang = "en", onClose }) {
     event.preventDefault();
     if (status === "sending") return;
     setStatus("sending"); setError("");
-    const data = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const data = new FormData(form);
     data.set("employeeId", employee.id);
     files.forEach(file => data.append("attachments", file));
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 20000);
     try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 20000);
       const res = await fetch("/api/contact", {
         method: "POST", body: data, signal: controller.signal
       });
-      clearTimeout(timeout);
       if (!res.ok) {
         if (res.status === 429) throw new Error("Too many requests. Please wait and try again.");
         throw new Error("We could not send your message. Please try again.");
       }
-      setStatus("sent"); event.currentTarget.reset(); setFiles([]);
+      form.reset();
+      setFiles([]);
+      setStatus("sent");
     } catch (e) {
       setStatus("error");
       setError(e.name === "AbortError" ? "The request timed out. Please try again." : e.message);
+    } finally {
+      clearTimeout(timeout);
     }
   };
 
